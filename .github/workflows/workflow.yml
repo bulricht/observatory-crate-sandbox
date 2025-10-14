@@ -25,27 +25,16 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: update on behalf of data-quality-control-action
-      - name: rocrate-sembench-setup
-        uses: vliz-be-opsci/rocrate-sembench-setup@main
+      - name: semantic-uplifting-action
+        uses: vliz-be-opsci/semantic-uplifting-action@main
         env:
           PROFILE: ${{ env.ROCRATE_PROFILE_URI }}
-      - name: semantify
-        uses: vliz-be-opsci/semantify@main
-      - name: rocrate-sembench-cleanup
+      - name: sema-clean
         run: sudo rm -rf ~sembench_data_cache/ ~sembench_kwargs.json
       - name: git-auto-commit-action
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: update on behalf of semantify
-      - name: rocrate-metadata-generator-action
-        uses: emo-bon/rocrate-metadata-generator-action@main
-        env:
-          PROFILE: ${{ env.ROCRATE_PROFILE_URI }}
-          REPO: ${{ github.repository }}
-      - name: git-auto-commit-action
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: update on behalf of rocrate-metadata-generator-action
+          commit_message: update on behalf of semantic-uplifting-action
       - name: rdf-aggregate-action
         uses: vliz-be-opsci/rdf-aggregate-action@main
         env:
@@ -54,15 +43,6 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: update on behalf of rdf-aggregate-action
-      - name: rocrate-metadata-generator-action
-        uses: emo-bon/rocrate-metadata-generator-action@main
-        env:
-          PROFILE: ${{ env.ROCRATE_PROFILE_URI }}
-          REPO: ${{ github.repository }}
-      - name: git-auto-commit-action
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: update on behalf of rocrate-metadata-generator-action
       - name: rocrate-to-pages
         uses: vliz-be-opsci/rocrate-to-pages@latest
         with:
