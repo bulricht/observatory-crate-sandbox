@@ -26,7 +26,7 @@ jobs:
         with:
           commit_message: update on behalf of data-quality-control-action
       - name: semantic-uplifting-action
-        uses: vliz-be-opsci/semantic-uplifting-action@main
+        uses: emo-bon/semantic-uplifting-action@main
         env:
           PROFILE: ${{ env.ROCRATE_PROFILE_URI }}
       - name: sema-clean
@@ -55,4 +55,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
           publish_dir: ./unicornpages
