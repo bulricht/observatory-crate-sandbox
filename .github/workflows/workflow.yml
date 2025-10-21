@@ -5,11 +5,14 @@ jobs:
   job:
     runs-on: ubuntu-latest
     env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_REPO: ${{ github.repository }}
       ROCRATE_PROFILE_URI: https://data.emobon.embrc.eu/observatory-profile/latest
       WATER_LOGSHEET_URL: https://docs.google.com/spreadsheets/d/1mEi4Bd2YR63WD0j54FQ6QkzcUw_As9Wilue9kaXO2DE/edit?usp=sharing
       SEDIMENT_LOGSHEET_URL: https://docs.google.com/spreadsheets/d/1zc0bZdpl-Eoi35lI_5BGkElbscplyQRyNPLkSgeEyEQ/edit?usp=sharing
       ARMS_LOGSHEET_URL: urn:todo
       DATA_QUALITY_CONTROL_THRESHOLD_DATE: 31/12/2022 # should crash on this value!
+      DATA_QUALITY_CONTROL_ASSIGNEE: N/A
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -21,10 +24,6 @@ jobs:
           commit_message: update on behalf of logsheet-downloader-action
       - name: data-quality-control-action
         uses: emo-bon/data-quality-control-action@main
-        env:
-          PAT: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }}
-          ASSIGNEE: null
       - name: git-auto-commit-action
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
