@@ -1,4 +1,4 @@
-name: linked-data-etl
+name: observatory-crate-workflow
 on:
   workflow_dispatch:
 jobs:
@@ -6,6 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ROCRATE_PROFILE_URI: https://data.emobon.embrc.eu/observatory-profile/latest
+      WATER_LOGSHEET_URL: https://docs.google.com/spreadsheets/d/1mEi4Bd2YR63WD0j54FQ6QkzcUw_As9Wilue9kaXO2DE/edit?usp=sharing
+      SEDIMENT_LOGSHEET_URL: https://docs.google.com/spreadsheets/d/1zc0bZdpl-Eoi35lI_5BGkElbscplyQRyNPLkSgeEyEQ/edit?usp=sharing
+      DATA_QUALITY_CONTROL_THRESHOLD_DATE: 31/12/2022
     steps:
       - name: checkout
         uses: actions/checkout@v3
@@ -29,20 +32,10 @@ jobs:
         uses: emo-bon/semantic-uplifting-action@main
         env:
           PROFILE: ${{ env.ROCRATE_PROFILE_URI }}
-      - name: sema-clean
-        run: sudo rm -rf ~sembench_data_cache/ ~sembench_kwargs.json
       - name: git-auto-commit-action
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: update on behalf of semantic-uplifting-action
-      - name: rdf-aggregate-action
-        uses: vliz-be-opsci/rdf-aggregate-action@main
-        env:
-          GLOBS: sediment/**/*:ttl|water/**/*:ttl|ro-crate-metadata.json:json-ld
-      - name: git-auto-commit-action
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: update on behalf of rdf-aggregate-action
       - name: rocrate-to-pages
         uses: vliz-be-opsci/rocrate-to-pages@latest
         with:
@@ -56,4 +49,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./unicornpages
-
